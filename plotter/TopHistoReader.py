@@ -7,7 +7,7 @@ from ROOT.TMath import Sqrt as sqrt
 from copy import deepcopy
 average = lambda x: sum(x)/len(x)
 gROOT.SetBatch(1)
-sys.path.append(os.path.abspath(__file__).rsplit('/xuAnalysis/',1)[0]+'/xuAnalysis/')
+sys.path.append(os.path.abspath(__file__).rsplit('/xuAnalysis_all/',1)[0]+'/xuAnalysis_all/')
 
 #from ttbar.ttanalysis import ch, chan, lev, level, dataset, datasets, systematic, systlabel  
 level = {0:'dilepton', 1:'ZVeto', 2:'MET', 3:'2jets', 4:'1btag'}
@@ -284,10 +284,11 @@ class TopHistoReader:
    if self.IsHisto(process, name): hnames.append(name)
    return hnames
    
- def GetHistoDic(self, processDic, hname, systlist):
+ def GetHistoDic(self, processDic, hname, systlist, systdic = {}):
+   if isinstance(hname, str) and ',' in hname: hname = hname.replace(' ', '').split(',') 
    if isinstance(hname, list): 
      for histoname in hname:
-       self.GetHistoDic(processDic, histoname, systlist)
+       self.GetHistoDic(processDic, histoname, systlist, systdic)
      return self.histodic
    processes = processDic.keys()
    for pr in processes:
@@ -300,6 +301,13 @@ class TopHistoReader:
          h = TH1F()
          h = self.GetNamedHisto(hsyst, processDic[pr], rebin=self.rebin)
          self.AddToHistoDic(h, pr, hsyst)
+   for pr in systdic:
+     if not pr in processes: continue
+     for syst in systdic[pr].keys():
+       h = TH1F()
+       h = self.GetNamedHisto(hname, systdic[pr][syst], rebin=self.rebin)
+       hsystname = '%s_%s'%(hname, syst)
+       self.AddToHistoDic(h, pr, hsystname)
    return self.histodic
 
  def __init__(self, path = './', process = '', var = '', chan = '', ilevel = '', syst = '', fileprefix = ''):
@@ -485,7 +493,6 @@ class Process:
 from OutText import OutText
 class WeightReader:
  ''' Get uncertainties from 9 scale weights and 33 PDF weights  
-
      ### For PDF + alpha_S
      See https://arxiv.org/pdf/1510.03865.pdf
      Eq 20 and 27 for PDF and alpha_s
@@ -842,6 +849,9 @@ class HistoManager:
   def SetProcessDic(self, pd):
     self.processDic = pd
 
+  def SetSystDic(self, systdic):
+    self.systdic = systdic
+
   def SetTopReader(self, path):
     self.path = path
     self.thr = TopHistoReader(path)
@@ -852,9 +862,13 @@ class HistoManager:
  
   def SetRebin(self, rebin):
     self.thr.SetRebin(rebin)
+    self.rebin = rebin
 
   def SetInputDicFromReader(self):
-    self.indic = self.thr.GetHistoDic(self.processDic, self.histoname, self.systname)
+    self.indic = self.thr.GetHistoDic(self.processDic, self.histoname, self.systname, self.systdic)
+
+  def GetHistoName(self):
+    return self.histoname
 
   def GetListOfCandNames(self, syst):
     systCand = ["%s"%syst, "%sUp"%syst, "%sDo"%syst, "%sDown"%syst]
@@ -970,6 +984,7 @@ class HistoManager:
     for pr in self.processList:
       for h in self.indic[pr]: 
         self.indic[pr][h].SetStats(0)
+        self.indic[pr][h].SetTitle('')
         self.indic[pr][h].Scale(self.lumi)
 
   def GetUncHist(self, syst = '', includeStat = True):
@@ -989,7 +1004,7 @@ class HistoManager:
 
   def GetDataHisto(self):
     if not 'data' in self.indic.keys():
-      print 'WARNING: not data histogram found...'
+      #print 'WARNING: data histogram not found...'
       return None
     self.indic['data'][self.histoname].SetMarkerSize(1.2)
     self.indic['data'][self.histoname].SetMarkerStyle(20)
@@ -1001,7 +1016,7 @@ class HistoManager:
   def GetRatioHisto(self):
     # Data / All bkg
     hbkg  = self.GetSumBkg()
-    h     = self.GetDataHisto().Clone("hratio")
+    h     = self.GetDataHisto().Clone("hratio") if 'data' in self.indic.keys() else self.GetSumBkg().Clone("hratio")
     h.SetDirectory(0)
     h.Divide(hbkg)
     #hdata = self.GetDataHisto()
@@ -1042,18 +1057,21 @@ class HistoManager:
       hStack.Add(self.indic[p][self.histoname])
     return hStack
       
-  def __init__(self, prlist = [], syslist = [], hname = '', path = '', processDic = {}, lumi = 1, rebin = 1, indic = {}):
+  def __init__(self, prlist = [], syslist = [], hname = '', path = '', processDic = {}, systdic = {}, lumi = 1, rebin = 1, indic = {}):
     self.SetProcessList(prlist)
     self.SetHistoName(hname)
     self.SetSystList(syslist)
     self.sumdic = {}
     self.systlabels = []
     self.SetProcessDic(processDic)
+    self.SetSystDic(systdic)
     self.SetTopReader(path)
     self.SetRebin(rebin)
     self.indic = indic
     self.lumi = lumi
-    if indic == {} and path != '' and hname != '' and processDic != {}: 
+    self.readFromTrees = False
+    if(indic == {} and path != '' and processDic != {}): self.readFromTrees = True
+    if self.readFromTrees and hname != '':
       self.SetHisto(hname, rebin)
 
   def Add(self, HM):
@@ -1072,10 +1090,16 @@ class HistoManager:
     return self
 
   def SetHisto(self, hname, rebin = 1):
-    self.indic = {}
     self.SetHistoName(hname)
     self.SetRebin(rebin)
-    self.SetInputDicFromReader()
+    if self.readFromTrees:
+      self.SetInputDicFromReader()
     self.LookForSystLabels()
     self.ScaleByLumi()
     self.SumHistos()
+
+  def Clear(self):
+    self.indic = {}
+
+  def GetHisto(self, sname, hname):
+    return self.indic[sname][hname]
