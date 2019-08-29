@@ -68,7 +68,7 @@ class Plot:
     leg.SetNColumns(self.legNcol)
     return leg
 
-  def SetLegendRatioPos(self, x0 = 0.18, y0 = 0.85, x1 = 0.60, y1 = 0.91, size = 0.065, ncol = 2):
+  def SetLegendRatioPos(self, x0 = 0.18, y0 = 0.85, x1 = 0.40, y1 = 0.91, size = 0.065, ncol = 2):
     self.legratx0 = x0
     self.legratx1 = x1
     self.legraty0 = y0
@@ -157,7 +157,7 @@ class Plot:
 
   #############################################################################################
   ### Axes
-  def SetXtitle(self, tit = '', size = 0.16, offset = 1.2, nDiv = 510, labSize = 0.16):
+  def SetXtitle(self, tit = '', size = 0.16, offset = 1.2, nDiv = 510, labSize = 0.12):
     self.axisXtit     = tit
     self.axisXsize    = size
     self.axisXoffset  = offset
@@ -275,6 +275,7 @@ class Plot:
     if self.doRatio:
       h.GetXaxis().SetTitle("")
       h.GetXaxis().SetLabelSize(0)
+
     else:
       h.GetXaxis().SetTitle(self.axisXtit)
       h.GetXaxis().SetTitleSize(self.axisXsize)
@@ -294,7 +295,7 @@ class Plot:
     h.GetYaxis().SetLabelSize(self.axisRlabSize)
     h.GetYaxis().SetNdivisions(self.axisRnDiv)
     h.GetYaxis().CenterTitle()
-
+    
   def Save(self):
     # Save
     #if not os.path.isdir(self.GetOutPath()): 
@@ -391,20 +392,24 @@ class HistoComp(Plot):
       if h[2] != 0 and h[2] != '': h[0].Draw('same,'+h[2])
       # Legend
       if h[3] != 0 and h[3] != '': self.legend.AddEntry(h[0], h[3], legsymbol)
+      
     self.SetAxisPlot(self.histos[0][0])
     dmax = max(dmax)
     dmin = min(dmin)
     self.legend.Draw()
 
     # Set maximum and minimum
+    
     if isinstance(self.PlotMaximum, float): self.histos[0][0].SetMaximum(self.PlotMaximum)
     else: self.histos[0][0].SetMaximum(dmax*self.PlotMaxScale)
     if isinstance(self.PlotMinimum, float): self.histos[0][0].SetMinimum(self.PlotMinimum)
+
     self.plot.SetLogy(doSetLogy)
 
     if self.doRatio: 
       if self.autoRatio:
         hratio = self.histos[0][0].Clone("hratio")
+
         self.SetAxisRatio(hratio)
         if len(self.binLabels) > 0: 
           for i in range(len(self.binLabels)):
@@ -417,13 +422,14 @@ class HistoComp(Plot):
           self.AddRatioHisto(htempRat, h[1], h[2])
       self.ratio.cd()
       if len(self.ratioh) >= 1:
-        self.SetAxisRatio(self.ratioh[0][0])
+        self.SetAxisRatio(self.ratioh[0][0])        
         self.ratioh[0][0].SetMaximum(self.PlotRatioMax)
         self.ratioh[0][0].SetMinimum(self.PlotRatioMin)
-        for h in self.ratioh: 
-          h[0].Draw(h[1] + ',same')
-          if h[2] != 0 and h[2] != '': h[0].Draw('same,'+h[2])
-        
+
+        for h in self.ratioh:
+		  h[0].Draw(h[1] + ',same')
+		  if h[2] != 0 and h[2] != '': h[0].Draw('same,'+h[2])
+      
     # Save
     gPad.SetTickx();
     gPad.SetTicky();

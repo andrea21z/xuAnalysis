@@ -13,7 +13,7 @@ def GetYield(path, files, ch = 'ElMu', level = 'dilepton', histopref = 'H', year
   t.SetLevel(level)
   t.SetChan(ch)
   t.SetHistoNamePrefix(histopref)
-  t.SetLumi(GetLumi(2018)*1000)
+  t.SetLumi(GetLumi(2016)*1000)
   #t.SetLumi(GetLumi(year)*1000)
   #t.SetLumi(1)
   t.SetFileNamePrefix(filepref)
@@ -26,111 +26,113 @@ def GetYield(path, files, ch = 'ElMu', level = 'dilepton', histopref = 'H', year
     y = t.GetYield()
   return y
 
-lev = '1btag'
+lev = 'dilepton'
 #'#2jets' #'1btag'#'dilepton'
 year=2018
 
 print 'yields year: %i'%year
-
+'''
 print 'ElMu (bb): ', GetYield(path[year], processDic[year]['bb'], ch='ElMu', level=lev, year=year)
 print 'Muon (bb): ', GetYield(path[year], processDic[year]['bb'], ch='Muon', level=lev, year=year)
 print 'Elec (bb): ', GetYield(path[year], processDic[year]['bb'], ch='Elec', level=lev, year=year)
 '''
-print 'ElMu (DY): ', GetYield(path[year], process[year]['DY'], ch='ElMu', level=lev, year=year)
-print 'Muon (DY): ', GetYield(path[year], process[year]['DY'], ch='Muon', level=lev, year=year)
-print 'Elec (DY): ', GetYield(path[year], process[year]['DY'], ch='Elec', level=lev, year=year)
+print 'ElMu (DY): ', GetYield(path[year], processDic[year]['DY'], ch='ElMu', level=lev, year=year)
+print 'Muon (DY): ', GetYield(path[year], processDic[year]['DY'], ch='Muon', level=lev, year=year)
+print 'Elec (DY): ', GetYield(path[year], processDic[year]['DY'], ch='Elec', level=lev, year=year)
 
-print 'ElMu (Nonprompt): ', GetYield(path[year], process[year]['Nonprompt'], ch='ElMu', level=lev, year=year)
-print 'Muon (Nonprompt): ', GetYield(path[year], process[year]['Nonprompt'], ch='Muon', level=lev, year=year)
-print 'Elec (Nonprompt): ', GetYield(path[year], process[year]['Nonprompt'], ch='Elec', level=lev, year=year)
+print 'ElMu (Nonprompt): ', GetYield(path[year], processDic[year]['Nonprompt'], ch='ElMu', level=lev, year=year)
+print 'Muon (Nonprompt): ', GetYield(path[year], processDic[year]['Nonprompt'], ch='Muon', level=lev, year=year)
+print 'Elec (Nonprompt): ', GetYield(path[year], processDic[year]['Nonprompt'], ch='Elec', level=lev, year=year)
 
-print 'ElMu (tW): ', GetYield(path[year], process[year]['tW'], ch='ElMu', level=lev, year=year)
-print 'Muon (tW): ', GetYield(path[year], process[year]['tW'], ch='Muon', level=lev, year=year)
-print 'Elec (tW): ', GetYield(path[year], process[year]['tW'], ch='Elec', level=lev, year=year)
+print 'ElMu (tW): ', GetYield(path[year], processDic[year]['tW'], ch='ElMu', level=lev, year=year)
+print 'Muon (tW): ', GetYield(path[year], processDic[year]['tW'], ch='Muon', level=lev, year=year)
+print 'Elec (tW): ', GetYield(path[year], processDic[year]['tW'], ch='Elec', level=lev, year=year)
 
-print 'ElMu (VV): ', GetYield(path[year], process[year]['VV'], ch='ElMu', level=lev, year=year)
-print 'Muon (VV): ', GetYield(path[year], process[year]['VV'], ch='Muon', level=lev, year=year)
-print 'Elec (VV): ', GetYield(path[year], process[year]['VV'], ch='Elec', level=lev, year=year)
+print 'ElMu (VV): ', GetYield(path[year], processDic[year]['VV'], ch='ElMu', level=lev, year=year)
+print 'Muon (VV): ', GetYield(path[year], processDic[year]['VV'], ch='Muon', level=lev, year=year)
+print 'Elec (VV): ', GetYield(path[year], processDic[year]['VV'], ch='Elec', level=lev, year=year)
 
-print 'ElMu (ttV): ', GetYield(path[year], process[year]['ttV'], ch='ElMu', level=lev, year=year)
-print 'Muon (ttV): ', GetYield(path[year], process[year]['ttV'], ch='Muon', level=lev, year=year)
-print 'Elec (ttV): ', GetYield(path[year], process[year]['ttV'], ch='Elec', level=lev, year=year)
+print 'ElMu (ttV): ', GetYield(path[year], processDic[year]['ttV'], ch='ElMu', level=lev, year=year)
+print 'Muon (ttV): ', GetYield(path[year], processDic[year]['ttV'], ch='Muon', level=lev, year=year)
+print 'Elec (ttV): ', GetYield(path[year], processDic[year]['ttV'], ch='Elec', level=lev, year=year)
 
-print 'ElMu (background): ', GetYield(path[year], process[year]['DY'], ch='ElMu', level=lev, year=year)+GetYield(path[year], process[year]['ttV'], ch='ElMu', level=lev, year=year)+GetYield(path[year], process[year]['VV'], ch='ElMu', level=lev, year=year)+GetYield(path[year], process[year]['tW'], ch='ElMu', level=lev, year=year)+GetYield(path[year], process[year]['Nonprompt'], ch='ElMu', level=lev, year=year)
-print 'Muon (background): ', GetYield(path[year], process[year]['DY'], ch='Muon', level=lev, year=year)+GetYield(path[year], process[year]['ttV'], ch='Muon', level=lev, year=year)+GetYield(path[year], process[year]['VV'], ch='Muon', level=lev, year=year)+GetYield(path[year], process[year]['tW'], ch='Muon', level=lev, year=year)+GetYield(path[year], process[year]['Nonprompt'], ch='Muon', level=lev, year=year)
-print 'Elec (background): ', GetYield(path[year], process[year]['DY'], ch='Elec', level=lev, year=year)+GetYield(path[year], process[year]['ttV'], ch='Elec', level=lev, year=year)+GetYield(path[year], process[year]['VV'], ch='Elec', level=lev, year=year)+GetYield(path[year], process[year]['tW'], ch='Elec', level=lev, year=year)+GetYield(path[year], process[year]['Nonprompt'], ch='Elec', level=lev, year=year)
+print 'ElMu (background): ', GetYield(path[year], processDic[year]['DY'], ch='ElMu', level=lev, year=year)+GetYield(path[year], processDic[year]['ttV'], ch='ElMu', level=lev, year=year)+GetYield(path[year], processDic[year]['VV'], ch='ElMu', level=lev, year=year)+GetYield(path[year], processDic[year]['tW'], ch='ElMu', level=lev, year=year)+GetYield(path[year], processDic[year]['Nonprompt'], ch='ElMu', level=lev, year=year)
+print 'Muon (background): ', GetYield(path[year], processDic[year]['DY'], ch='Muon', level=lev, year=year)+GetYield(path[year], processDic[year]['ttV'], ch='Muon', level=lev, year=year)+GetYield(path[year], processDic[year]['VV'], ch='Muon', level=lev, year=year)+GetYield(path[year], processDic[year]['tW'], ch='Muon', level=lev, year=year)+GetYield(path[year], processDic[year]['Nonprompt'], ch='Muon', level=lev, year=year)
+print 'Elec (background): ', GetYield(path[year], processDic[year]['DY'], ch='Elec', level=lev, year=year)+GetYield(path[year], processDic[year]['ttV'], ch='Elec', level=lev, year=year)+GetYield(path[year], processDic[year]['VV'], ch='Elec', level=lev, year=year)+GetYield(path[year], processDic[year]['tW'], ch='Elec', level=lev, year=year)+GetYield(path[year], processDic[year]['Nonprompt'], ch='Elec', level=lev, year=year)
 
-print 'TT ElMu : ', GetYield(path[year], process[year]['t#bar{t}'], ch='ElMu', level=lev, year=year)
-print 'TT Muon : ', GetYield(path[year], process[year]['t#bar{t}'], ch='Muon', level=lev, year=year)
-print 'TT Elec : ', GetYield(path[year], process[year]['t#bar{t}'], ch='Elec', level=lev, year=year)
+print 'TT ElMu : ', GetYield(path[year], processDic[year]['t#bar{t}'], ch='ElMu', level=lev, year=year)
+print 'TT Muon : ', GetYield(path[year], processDic[year]['t#bar{t}'], ch='Muon', level=lev, year=year)
+print 'TT Elec : ', GetYield(path[year], processDic[year]['t#bar{t}'], ch='Elec', level=lev, year=year)
 
-print 'ElMu (data): ', GetYield(path[year], process[year]['data'], ch='ElMu', level=lev, year=year,isdata = True)
-print 'Muon (data): ', GetYield(path[year], process[year]['data'], ch='Muon', level=lev, year=year, isdata=True)
-print 'Elec (data): ', GetYield(path[year], process[year]['data'], ch='Elec', level=lev, year=year, isdata=True)
+print 'ElMu (data): ', GetYield(path[year], processDic[year]['data'], ch='ElMu', level=lev, year=year,isdata = True)
+print 'Muon (data): ', GetYield(path[year], processDic[year]['data'], ch='Muon', level=lev, year=year, isdata=True)
+print 'Elec (data): ', GetYield(path[year], processDic[year]['data'], ch='Elec', level=lev, year=year, isdata=True)
 
 ##### DIFERENCIA DE YIELDS ENTRE DOS ANIOS
-year = 2017
+year = 2016
 year2 = 2018
 print 'yields difference between %i and %i'%(year, year2)
 
-print 'ElMu (DY) difference: ', (GetYield(path[year], process[year]['DY'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], process[year2]['DY'], ch='ElMu', level=lev, year=year2))*100/GetYield(path[year], process[year]['DY'], ch='ElMu', level=lev, year=year)
-print 'Muon (DY) difference: ', (GetYield(path[year], process[year]['DY'], ch='Muon', level=lev, year=year)-GetYield(path[year2], process[year2]['DY'], ch='Muon', level=lev, year=year2))*100/GetYield(path[year], process[year]['DY'], ch='Muon', level=lev, year=year)
-print 'Elec (DY) difference: ', (GetYield(path[year], process[year]['DY'], ch='Elec', level=lev, year=year)-GetYield(path[year2], process[year2]['DY'], ch='Elec', level=lev, year=year2))*100/GetYield(path[year], process[year]['DY'], ch='Elec', level=lev, year=year)
+print 'ElMu (DY) difference: ', (GetYield(path[year], processDic[year]['DY'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], processDic[year2]['DY'], ch='ElMu', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['DY'], ch='ElMu', level=lev, year=year)
+print 'Muon (DY) difference: ', (GetYield(path[year], processDic[year]['DY'], ch='Muon', level=lev, year=year)-GetYield(path[year2], processDic[year2]['DY'], ch='Muon', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['DY'], ch='Muon', level=lev, year=year)
+print 'Elec (DY) difference: ', (GetYield(path[year], processDic[year]['DY'], ch='Elec', level=lev, year=year)-GetYield(path[year2], processDic[year2]['DY'], ch='Elec', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['DY'], ch='Elec', level=lev, year=year)
 
-print 'ElMu (Nonprompt) difference: ', (GetYield(path[year], process[year]['Nonprompt'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], process[year2]['Nonprompt'], ch='ElMu', level=lev, year=year2))*100/GetYield(path[year], process[year]['Nonprompt'], ch='ElMu', level=lev, year=year)
-print 'Muon (Nonprompt) difference: ', (GetYield(path[year], process[year]['Nonprompt'], ch='Muon', level=lev, year=year)-GetYield(path[year2], process[year2]['Nonprompt'], ch='Muon', level=lev, year=year2))*100/GetYield(path[year], process[year]['Nonprompt'], ch='Muon', level=lev, year=year)
-print 'Elec (Nonprompt) difference: ', (GetYield(path[year], process[year]['Nonprompt'], ch='Elec', level=lev, year=year)-GetYield(path[year2], process[year2]['Nonprompt'], ch='Elec', level=lev, year=year2))*100/GetYield(path[year], process[year]['Nonprompt'], ch='Elec', level=lev, year=year)
+print 'ElMu (Nonprompt) difference: ', (GetYield(path[year], processDic[year]['Nonprompt'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], processDic[year2]['Nonprompt'], ch='ElMu', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['Nonprompt'], ch='ElMu', level=lev, year=year)
+print 'Muon (Nonprompt) difference: ', (GetYield(path[year], processDic[year]['Nonprompt'], ch='Muon', level=lev, year=year)-GetYield(path[year2], processDic[year2]['Nonprompt'], ch='Muon', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['Nonprompt'], ch='Muon', level=lev, year=year)
+print 'Elec (Nonprompt) difference: ', (GetYield(path[year], processDic[year]['Nonprompt'], ch='Elec', level=lev, year=year)-GetYield(path[year2], processDic[year2]['Nonprompt'], ch='Elec', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['Nonprompt'], ch='Elec', level=lev, year=year)
 
-print 'ElMu (tW) difference: ', (GetYield(path[year], process[year]['tW'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], process[year2]['tW'], ch='ElMu', level=lev, year=year2))*100/GetYield(path[year], process[year]['tW'], ch='ElMu', level=lev, year=year)
-print 'Muon (tW) difference: ', (GetYield(path[year], process[year]['tW'], ch='Muon', level=lev, year=year)-GetYield(path[year2], process[year2]['tW'], ch='Muon', level=lev, year=year2))*100/GetYield(path[year], process[year]['tW'], ch='Muon', level=lev, year=year)
-print 'Elec (tW) difference: ', (GetYield(path[year], process[year]['tW'], ch='Elec', level=lev, year=year)-GetYield(path[year2], process[year2]['tW'], ch='Elec', level=lev, year=year2))*100/GetYield(path[year], process[year]['tW'], ch='Elec', level=lev, year=year)
+print 'ElMu (tW) difference: ', (GetYield(path[year], processDic[year]['tW'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], processDic[year2]['tW'], ch='ElMu', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['tW'], ch='ElMu', level=lev, year=year)
+print 'Muon (tW) difference: ', (GetYield(path[year], processDic[year]['tW'], ch='Muon', level=lev, year=year)-GetYield(path[year2], processDic[year2]['tW'], ch='Muon', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['tW'], ch='Muon', level=lev, year=year)
+print 'Elec (tW) difference: ', (GetYield(path[year], processDic[year]['tW'], ch='Elec', level=lev, year=year)-GetYield(path[year2], processDic[year2]['tW'], ch='Elec', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['tW'], ch='Elec', level=lev, year=year)
 
-print 'ElMu (VV) difference: ', (GetYield(path[year], process[year]['VV'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], process[year2]['VV'], ch='ElMu', level=lev, year=year2))*100/GetYield(path[year], process[year]['VV'], ch='ElMu', level=lev, year=year)
-print 'Muon (VV) difference: ', (GetYield(path[year], process[year]['VV'], ch='Muon', level=lev, year=year)-GetYield(path[year2], process[year2]['VV'], ch='Muon', level=lev, year=year2))*100/GetYield(path[year], process[year]['VV'], ch='Muon', level=lev, year=year)
-print 'Elec (VV) difference: ', (GetYield(path[year], process[year]['VV'], ch='Elec', level=lev, year=year)-GetYield(path[year2], process[year2]['VV'], ch='Elec', level=lev, year=year2))*100/GetYield(path[year], process[year]['VV'], ch='Elec', level=lev, year=year)
+print 'ElMu (VV) difference: ', (GetYield(path[year], processDic[year]['VV'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], processDic[year2]['VV'], ch='ElMu', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['VV'], ch='ElMu', level=lev, year=year)
+print 'Muon (VV) difference: ', (GetYield(path[year], processDic[year]['VV'], ch='Muon', level=lev, year=year)-GetYield(path[year2], processDic[year2]['VV'], ch='Muon', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['VV'], ch='Muon', level=lev, year=year)
+print 'Elec (VV) difference: ', (GetYield(path[year], processDic[year]['VV'], ch='Elec', level=lev, year=year)-GetYield(path[year2], processDic[year2]['VV'], ch='Elec', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['VV'], ch='Elec', level=lev, year=year)
 
-print 'ElMu (ttV) difference: ', (GetYield(path[year], process[year]['ttV'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], process[year2]['ttV'], ch='ElMu', level=lev, year=year2))*100/GetYield(path[year], process[year]['ttV'], ch='ElMu', level=lev, year=year)
-print 'Muon (ttV) difference: ', (GetYield(path[year], process[year]['ttV'], ch='Muon', level=lev, year=year)-GetYield(path[year2], process[year2]['ttV'], ch='Muon', level=lev, year=year2))*100/GetYield(path[year], process[year]['ttV'], ch='Muon', level=lev, year=year)
-print 'Elec (ttV) difference: ', (GetYield(path[year], process[year]['ttV'], ch='Elec', level=lev, year=year)-GetYield(path[year2], process[year2]['ttV'], ch='Elec', level=lev, year=year2))*100/GetYield(path[year], process[year]['ttV'], ch='Elec', level=lev, year=year)
+print 'ElMu (ttV) difference: ', (GetYield(path[year], processDic[year]['ttV'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], processDic[year2]['ttV'], ch='ElMu', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['ttV'], ch='ElMu', level=lev, year=year)
+print 'Muon (ttV) difference: ', (GetYield(path[year], processDic[year]['ttV'], ch='Muon', level=lev, year=year)-GetYield(path[year2], processDic[year2]['ttV'], ch='Muon', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['ttV'], ch='Muon', level=lev, year=year)
+print 'Elec (ttV) difference: ', (GetYield(path[year], processDic[year]['ttV'], ch='Elec', level=lev, year=year)-GetYield(path[year2], processDic[year2]['ttV'], ch='Elec', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['ttV'], ch='Elec', level=lev, year=year)
 
-print 'TT ElMu difference: ', (GetYield(path[year], process[year]['t#bar{t}'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], process[year2]['t#bar{t}'], ch='ElMu', level=lev, year=year2))*100/GetYield(path[year], process[year]['t#bar{t}'], ch='ElMu', level=lev, year=year)
-print 'TT Muon difference: ', (GetYield(path[year], process[year]['t#bar{t}'], ch='Muon', level=lev, year=year)-GetYield(path[year2], process[year2]['t#bar{t}'], ch='Muon', level=lev, year=year2))*100/GetYield(path[year], process[year]['t#bar{t}'], ch='Muon', level=lev, year=year)
-print 'TT Elec difference: ', (GetYield(path[year], process[year]['t#bar{t}'], ch='Elec', level=lev, year=year)-GetYield(path[year2], process[year2]['t#bar{t}'], ch='Elec', level=lev, year=year2))*100/GetYield(path[year], process[year]['t#bar{t}'], ch='Elec', level=lev, year=year)
+print 'TT ElMu difference: ', (GetYield(path[year], processDic[year]['t#bar{t}'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], processDic[year2]['t#bar{t}'], ch='ElMu', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['t#bar{t}'], ch='ElMu', level=lev, year=year)
+print 'TT Muon difference: ', (GetYield(path[year], processDic[year]['t#bar{t}'], ch='Muon', level=lev, year=year)-GetYield(path[year2], processDic[year2]['t#bar{t}'], ch='Muon', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['t#bar{t}'], ch='Muon', level=lev, year=year)
+print 'TT Elec difference: ', (GetYield(path[year], processDic[year]['t#bar{t}'], ch='Elec', level=lev, year=year)-GetYield(path[year2], processDic[year2]['t#bar{t}'], ch='Elec', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['t#bar{t}'], ch='Elec', level=lev, year=year)
 
-print 'ElMu (data) difference: ', (GetYield(path[year], process[year]['data'], ch='ElMu', level=lev, year=year,isdata = True)-GetYield(path[year2], process[year2]['data'], ch='ElMu', level=lev, year=year2,isdata = True))*100/GetYield(path[year], process[year]['data'], ch='ElMu', level=lev, year=year,isdata = True)
-print 'Muon (data) difference: ', (GetYield(path[year], process[year]['data'], ch='Muon', level=lev, year=year, isdata=True)-GetYield(path[year2], process[year2]['data'], ch='Muon', level=lev, year=year2,isdata = True))*100/GetYield(path[year], process[year]['data'], ch='Muon', level=lev, year=year,isdata = True)
-print 'Elec (data) difference: ', (GetYield(path[year], process[year]['data'], ch='Elec', level=lev, year=year, isdata=True)-GetYield(path[year2], process[year2]['data'], ch='Elec', level=lev, year=year2,isdata = True))*100/GetYield(path[year], process[year]['data'], ch='Elec', level=lev, year=year,isdata = True)
-'''
+print 'ElMu (data) difference: ', (GetYield(path[year], processDic[year]['data'], ch='ElMu', level=lev, year=year,isdata = True)-GetYield(path[year2], processDic[year2]['data'], ch='ElMu', level=lev, year=year2,isdata = True))*100/GetYield(path[year], processDic[year]['data'], ch='ElMu', level=lev, year=year,isdata = True)
+print 'Muon (data) difference: ', (GetYield(path[year], processDic[year]['data'], ch='Muon', level=lev, year=year, isdata=True)-GetYield(path[year2], processDic[year2]['data'], ch='Muon', level=lev, year=year2,isdata = True))*100/GetYield(path[year], processDic[year]['data'], ch='Muon', level=lev, year=year,isdata = True)
+print 'Elec (data) difference: ', (GetYield(path[year], processDic[year]['data'], ch='Elec', level=lev, year=year, isdata=True)-GetYield(path[year2], processDic[year2]['data'], ch='Elec', level=lev, year=year2,isdata = True))*100/GetYield(path[year], processDic[year]['data'], ch='Elec', level=lev, year=year,isdata = True)
+
 ##comparacion 2016 con TOP-17-001
-'''
-print 'ElMu (DY) difference: ', (GetYield(path[year], process[year]['DY'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], process[year2]['DY'], ch='ElMu', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['DY'], ch='ElMu', level=lev, year=year)
-print 'Muon (DY) difference: ', (GetYield(path[year], process[year]['DY'], ch='Muon', level=lev, year=year)-GetYield(path[year2], process[year2]['DY'], ch='Muon', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['DY'], ch='Muon', level=lev, year=year)
-print 'Elec (DY) difference: ', (GetYield(path[year], process[year]['DY'], ch='Elec', level=lev, year=year)-GetYield(path[year2], process[year2]['DY'], ch='Elec', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['DY'], ch='Elec', level=lev, year=year)
+year=2016
+year2=2015
 
-print 'ElMu (Nonprompt) difference: ', (GetYield(path[year], process[year]['Nonprompt'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], process[year2]['Nonprompt'], ch='ElMu', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['Nonprompt'], ch='ElMu', level=lev, year=year)
-print 'Muon (Nonprompt) difference: ', (GetYield(path[year], process[year]['Nonprompt'], ch='Muon', level=lev, year=year)-GetYield(path[year2], process[year2]['Nonprompt'], ch='Muon', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['Nonprompt'], ch='Muon', level=lev, year=year)
-print 'Elec (Nonprompt) difference: ', (GetYield(path[year], process[year]['Nonprompt'], ch='Elec', level=lev, year=year)-GetYield(path[year2], process[year2]['Nonprompt'], ch='Elec', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['Nonprompt'], ch='Elec', level=lev, year=year)
+print 'ElMu (DY) difference: ', (GetYield(path[year], processDic[year]['DY'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], processDic[year2]['DY'], ch='ElMu', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['DY'], ch='ElMu', level=lev, year=year)
+print 'Muon (DY) difference: ', (GetYield(path[year], processDic[year]['DY'], ch='Muon', level=lev, year=year)-GetYield(path[year2], processDic[year2]['DY'], ch='Muon', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['DY'], ch='Muon', level=lev, year=year)
+print 'Elec (DY) difference: ', (GetYield(path[year], processDic[year]['DY'], ch='Elec', level=lev, year=year)-GetYield(path[year2], processDic[year2]['DY'], ch='Elec', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['DY'], ch='Elec', level=lev, year=year)
 
-print 'ElMu (tW) difference: ', (GetYield(path[year], process[year]['tW'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], process[year2]['tW'], ch='ElMu', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['tW'], ch='ElMu', level=lev, year=year)
-print 'Muon (tW) difference: ', (GetYield(path[year], process[year]['tW'], ch='Muon', level=lev, year=year)-GetYield(path[year2], process[year2]['tW'], ch='Muon', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['tW'], ch='Muon', level=lev, year=year)
-print 'Elec (tW) difference: ', (GetYield(path[year], process[year]['tW'], ch='Elec', level=lev, year=year)-GetYield(path[year2], process[year2]['tW'], ch='Elec', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['tW'], ch='Elec', level=lev, year=year)
+print 'ElMu (Nonprompt) difference: ', (GetYield(path[year], processDic[year]['Nonprompt'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], processDic[year2]['Nonprompt'], ch='ElMu', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['Nonprompt'], ch='ElMu', level=lev, year=year)
+print 'Muon (Nonprompt) difference: ', (GetYield(path[year], processDic[year]['Nonprompt'], ch='Muon', level=lev, year=year)-GetYield(path[year2], processDic[year2]['Nonprompt'], ch='Muon', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['Nonprompt'], ch='Muon', level=lev, year=year)
+print 'Elec (Nonprompt) difference: ', (GetYield(path[year], processDic[year]['Nonprompt'], ch='Elec', level=lev, year=year)-GetYield(path[year2], processDic[year2]['Nonprompt'], ch='Elec', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['Nonprompt'], ch='Elec', level=lev, year=year)
 
-print 'ElMu (VV) difference: ', (GetYield(path[year], process[year]['VV'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], process[year2]['VV'], ch='ElMu', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['VV'], ch='ElMu', level=lev, year=year)
-print 'Muon (VV) difference: ', (GetYield(path[year], process[year]['VV'], ch='Muon', level=lev, year=year)-GetYield(path[year2], process[year2]['VV'], ch='Muon', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['VV'], ch='Muon', level=lev, year=year)
-print 'Elec (VV) difference: ', (GetYield(path[year], process[year]['VV'], ch='Elec', level=lev, year=year)-GetYield(path[year2], process[year2]['VV'], ch='Elec', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['VV'], ch='Elec', level=lev, year=year)
+print 'ElMu (tW) difference: ', (GetYield(path[year], processDic[year]['tW'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], processDic[year2]['tW'], ch='ElMu', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['tW'], ch='ElMu', level=lev, year=year)
+print 'Muon (tW) difference: ', (GetYield(path[year], processDic[year]['tW'], ch='Muon', level=lev, year=year)-GetYield(path[year2], processDic[year2]['tW'], ch='Muon', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['tW'], ch='Muon', level=lev, year=year)
+print 'Elec (tW) difference: ', (GetYield(path[year], processDic[year]['tW'], ch='Elec', level=lev, year=year)-GetYield(path[year2], processDic[year2]['tW'], ch='Elec', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['tW'], ch='Elec', level=lev, year=year)
 
-print 'ElMu (ttV) difference: ', (GetYield(path[year], process[year]['ttV'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], process[year2]['ttV'], ch='ElMu', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['ttV'], ch='ElMu', level=lev, year=year)
-print 'Muon (ttV) difference: ', (GetYield(path[year], process[year]['ttV'], ch='Muon', level=lev, year=year)-GetYield(path[year2], process[year2]['ttV'], ch='Muon', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['ttV'], ch='Muon', level=lev, year=year)
-print 'Elec (ttV) difference: ', (GetYield(path[year], process[year]['ttV'], ch='Elec', level=lev, year=year)-GetYield(path[year2], process[year2]['ttV'], ch='Elec', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['ttV'], ch='Elec', level=lev, year=year)
+print 'ElMu (VV) difference: ', (GetYield(path[year], processDic[year]['VV'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], processDic[year2]['VV'], ch='ElMu', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['VV'], ch='ElMu', level=lev, year=year)
+print 'Muon (VV) difference: ', (GetYield(path[year], processDic[year]['VV'], ch='Muon', level=lev, year=year)-GetYield(path[year2], processDic[year2]['VV'], ch='Muon', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['VV'], ch='Muon', level=lev, year=year)
+print 'Elec (VV) difference: ', (GetYield(path[year], processDic[year]['VV'], ch='Elec', level=lev, year=year)-GetYield(path[year2], processDic[year2]['VV'], ch='Elec', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['VV'], ch='Elec', level=lev, year=year)
 
-print 'TT ElMu difference: ', (GetYield(path[year], process[year]['t#bar{t}'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], process[year2]['t#bar{t}'], ch='ElMu', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['t#bar{t}'], ch='ElMu', level=lev, year=year)
-print 'TT Muon difference: ', (GetYield(path[year], process[year]['t#bar{t}'], ch='Muon', level=lev, year=year)-GetYield(path[year2], process[year2]['t#bar{t}'], ch='Muon', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['t#bar{t}'], ch='Muon', level=lev, year=year)
-print 'TT Elec difference: ', (GetYield(path[year], process[year]['t#bar{t}'], ch='Elec', level=lev, year=year)-GetYield(path[year2], process[year2]['t#bar{t}'], ch='Elec', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], process[year]['t#bar{t}'], ch='Elec', level=lev, year=year)
+print 'ElMu (ttV) difference: ', (GetYield(path[year], processDic[year]['ttV'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], processDic[year2]['ttV'], ch='ElMu', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['ttV'], ch='ElMu', level=lev, year=year)
+print 'Muon (ttV) difference: ', (GetYield(path[year], processDic[year]['ttV'], ch='Muon', level=lev, year=year)-GetYield(path[year2], processDic[year2]['ttV'], ch='Muon', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['ttV'], ch='Muon', level=lev, year=year)
+print 'Elec (ttV) difference: ', (GetYield(path[year], processDic[year]['ttV'], ch='Elec', level=lev, year=year)-GetYield(path[year2], processDic[year2]['ttV'], ch='Elec', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['ttV'], ch='Elec', level=lev, year=year)
 
-print 'ElMu (data) difference: ', (GetYield(path[year], process[year]['data'], ch='ElMu', level=lev, year=year,isdata = True)-GetYield(path[year2], process[year2]['data'], ch='ElMu', level=lev, year=year2,filepref = 'Tree_',isdata = True))*100/GetYield(path[year], process[year]['data'], ch='ElMu', level=lev, year=year,isdata = True)
-print 'Muon (data) difference: ', (GetYield(path[year], process[year]['data'], ch='Muon', level=lev, year=year, isdata=True)-GetYield(path[year2], process[year2]['data'], ch='Muon', level=lev, year=year2,filepref = 'Tree_',isdata = True))*100/GetYield(path[year], process[year]['data'], ch='Muon', level=lev, year=year,isdata = True)
-print 'Elec (data) difference: ', (GetYield(path[year], process[year]['data'], ch='Elec', level=lev, year=year, isdata=True)-GetYield(path[year2], process[year2]['data'], ch='Elec', level=lev, year=year2,filepref = 'Tree_',isdata = True))*100/GetYield(path[year], process[year]['data'], ch='Elec', level=lev, year=year,isdata = True)
-'''
+print 'TT ElMu difference: ', (GetYield(path[year], processDic[year]['t#bar{t}'], ch='ElMu', level=lev, year=year)-GetYield(path[year2], processDic[year2]['t#bar{t}'], ch='ElMu', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['t#bar{t}'], ch='ElMu', level=lev, year=year)
+print 'TT Muon difference: ', (GetYield(path[year], processDic[year]['t#bar{t}'], ch='Muon', level=lev, year=year)-GetYield(path[year2], processDic[year2]['t#bar{t}'], ch='Muon', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['t#bar{t}'], ch='Muon', level=lev, year=year)
+print 'TT Elec difference: ', (GetYield(path[year], processDic[year]['t#bar{t}'], ch='Elec', level=lev, year=year)-GetYield(path[year2], processDic[year2]['t#bar{t}'], ch='Elec', level=lev, year=year2,filepref = 'Tree_'))*100/GetYield(path[year], processDic[year]['t#bar{t}'], ch='Elec', level=lev, year=year)
+
+print 'ElMu (data) difference: ', (GetYield(path[year], processDic[year]['data'], ch='ElMu', level=lev, year=year,isdata = True)-GetYield(path[year2], processDic[year2]['data'], ch='ElMu', level=lev, year=year2,filepref = 'Tree_',isdata = True))*100/GetYield(path[year], processDic[year]['data'], ch='ElMu', level=lev, year=year,isdata = True)
+print 'Muon (data) difference: ', (GetYield(path[year], processDic[year]['data'], ch='Muon', level=lev, year=year, isdata=True)-GetYield(path[year2], processDic[year2]['data'], ch='Muon', level=lev, year=year2,filepref = 'Tree_',isdata = True))*100/GetYield(path[year], processDic[year]['data'], ch='Muon', level=lev, year=year,isdata = True)
+print 'Elec (data) difference: ', (GetYield(path[year], processDic[year]['data'], ch='Elec', level=lev, year=year, isdata=True)-GetYield(path[year2], processDic[year2]['data'], ch='Elec', level=lev, year=year2,filepref = 'Tree_',isdata = True))*100/GetYield(path[year], processDic[year]['data'], ch='Elec', level=lev, year=year,isdata = True)
+
 
 
 
