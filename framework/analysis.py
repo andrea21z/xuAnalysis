@@ -15,19 +15,19 @@ def loopAnal(listOfInputs):
   analcopy.SetVerbose(0)
   analcopy.SetNSlots(1)
   analcopy.loop(i0, iN)
-  outdic[k] = analcopy
+  outdic[k] = analcopy.obj
 
 def MergeObjectsDic(dic):
   k = dic.keys(); k.sort()
   print ' >> Merging objects (%i)...'%len(k)
   firstKey = k[-1]
   otherKeys = k[:-1]
-  objs = dic[firstKey].obj
+  objs = dic[firstKey]
   names = objs.keys(); names.sort()
   for name in names:
     if isinstance(objs[name],TH1F):
       for k in otherKeys: 
-        kobjs = dic[k].obj
+        kobjs = dic[k]
         objs[name].Add(kobjs[name])
   return objs
 
@@ -37,7 +37,6 @@ class analysis:
   #############################################################################################
   #############################################################################################
   ### Getting inputs
-
   def AddInput(self, name, Object):
     ''' Add an input to the dictionaty '''
     self.inputs[name] = Object
@@ -103,6 +102,28 @@ class analysis:
     sf    = self.inputs[name].GetBinContent(ibin)
     sferr = self.inputs[name].GetBinError(ibin)
     return sf, sferr
+
+  def GetSFfromTGraph(self, name, var):
+    ''' Reads a TGraphAsymmetricErrors and returs value '''
+    g = self.intputs[name]
+    n = g.GetN()
+    x = array('f', g.GetX())
+    y = array('f', g.GetY())
+    # Below minimum
+    if var < x[0]-g.GetErrorXlow(0):
+      return [y[0], (g.GetErrorYlow(0) + g.GetErrorYhigh(0))/2]
+    for i in range(n):
+      xmin = x[i] - g.GetErrorXlow(i)
+      xmax = x[i] + g.GetErrorXhigh(i)
+      SF = y[i]
+      SFerr = (g.GetErrorYlow(i) + g.GetErrorYhigh(i))/2
+      #print '[%1.1f - %1.1f]  %1.2f +/- %1.2f'%(xmin, xmax, SF, SFerr)
+      if var > xmin and var < xmax:
+        return [SF, SFerr]
+    # Above maximum
+    return [y[-1], (g.GetErrorYlow(n-1) + g.GetErrorYhigh(n-1))/2]
+    
+
 
 
 
@@ -350,7 +371,8 @@ class analysis:
       print '[INFO] Loaded %i inputs'%len(self.inputs)
       print '[INFO] Created %i outputs'%len(self.obj)
     for iEv in range(first, last):
-      if self.verbose > 0: self.printprocess(iEv)
+      #if self.verbose > 0: 
+      self.printprocess(iEv)
       self.tchain.GetEntry(iEv)
       self.hRunEvents.Fill(1)
       if not self.isData: self.EventWeight = self.xsec*self.tchain.genWeight/self.nSumOfWeights
@@ -376,7 +398,9 @@ class analysis:
     pool.map(loopAnal, inputs)
     pool.close()
     pool.join()
-    return MergeObjectsDic(outdic)
+    if 'merge' in self.options: 
+      return MergeObjectsDic(outdic)
+    else: return None
 
   def saveOutput(self, objlist = None):
     ''' Creates the out file and save the histos '''

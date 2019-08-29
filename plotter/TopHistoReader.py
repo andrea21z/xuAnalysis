@@ -62,6 +62,9 @@ class TopHistoReader:
  def SetVerbose(self, verbose = True):
    self.verbose = verbose
 
+ def SetYieldsSSname(self, n = "SSYields"):
+   self.YieldsSSname = n
+
  def GetHistoName(self):
    ''' Craft histo name from var, chan, level '''
    name = (self.histoprefix + '_' if self.histoprefix != '' else '') + self.var + '_' + self.chan + '_' + self.level
@@ -175,7 +178,7 @@ class TopHistoReader:
    if pr != '': self.SetProcess(pr)
    if ch != '': self.SetChan(ch)
    self.SetSystematic(syst)
-   prename = 'Yields_' if not SS else 'YieldsSS_'
+   prename = 'Yields_' if not SS else self.YieldsSSname + '_'#'SSYelds_'
    if self.histoprefix != '': prename = self.histoprefix + '_' + prename
    name = prename + self.chan
    if self.syst != '': name += '_' + self.syst
@@ -312,7 +315,9 @@ class TopHistoReader:
        self.AddToHistoDic(h, pr, hsystname)
    return self.histodic
 
+
  def __init__(self, path = './', process = '', var = '', chan = '', ilevel = '', syst = '', fileprefix = '', histoprefix=''):
+
     self.doStackOverflow = False
     self.doNormalize = False
     self.IsData  = False
@@ -331,6 +336,7 @@ class TopHistoReader:
     self.SetChan(chan)
     self.SetLevel(ilevel)
     self.SetSystematic(syst)
+    self.SetYieldsSSname()
 
 
 ###############################################################################################
