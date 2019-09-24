@@ -1,5 +1,5 @@
 import os,sys
-sys.path.append(os.path.abspath(__file__).rsplit('/xuAnalysis/',1)[0]+'/xuAnalysis/')
+sys.path.append(os.path.abspath(__file__).rsplit('/xuAnalysis_all/',1)[0]+'/xuAnalysis_all/')
 from plotter.TopHistoReader import TopHistoReader, OutText
 
 from ROOT.TMath import Sqrt as sqrt

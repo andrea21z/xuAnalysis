@@ -5,7 +5,6 @@ from ROOT.TMath import Sqrt as sqrt
 from ROOT import kRed, kOrange,kWhite, kBlue, kTeal, kGreen, kGray, kAzure, kPink, kCyan, kBlack, kSpring, kViolet, kYellow, TCanvas, TLegend
 
 
-
 c=TCanvas("c", "canvas", 800, 800);
 t = TopHistoReader(path[2016])
 t2=TopHistoReader(path[2015])

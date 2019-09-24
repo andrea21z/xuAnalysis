@@ -154,7 +154,7 @@ class TopHistoReader:
    if self.ReComputeStatUnc:
      for i in range(1,nbins+1):
        bc = h.GetBinContent(i) if h.GetBinContent(i) > 0 else 0
-       h.SetBinError(i, sqrt(bc*integral/entries) if entries != 0 else 0)
+       h.SetBinError(i, bc/sqrt(bc/integral*entries) if (entries != 0 and bc!=0 and integral!=0) else 0)
    else:
      for i in range(1,nbins+1):
        bc = h.GetBinContent(i) if h.GetBinContent(i) > 0 else 0
@@ -208,7 +208,7 @@ class TopHistoReader:
    ''' Returns value for FiduEvents histogram '''
    if ilev != '': self.SetLevel(ilev)
    self.SetIsData(True)
-   h = self.GetNamedHisto("FiduEvents",pr)
+   h = self.GetNamedHisto("H_FiduYields_ElMu",pr) #FiduEvents
    self.SetIsData(False)
    y = h.GetBinContent(self.GetBinNumberForLevel(self.level))
    return y
@@ -296,6 +296,7 @@ class TopHistoReader:
        self.GetHistoDic(processDic, histoname, systlist, systdic)
      return self.histodic
    processes = processDic.keys()
+   #self.SetFileNamePrefix('Tree_') #quitar
    for pr in processes:
      h = TH1F()
      h = self.GetNamedHisto(hname, processDic[pr], rebin=self.rebin)
@@ -325,7 +326,7 @@ class TopHistoReader:
     self.fname = ''
     self.rebin = 1
     self.lumi = 1
-    self.ReComputeStatUnc = False
+    self.ReComputeStatUnc = True
     self.SetFileNamePrefix(fileprefix)
     self.SetHistoNamePrefix(histoprefix)
     self.histodic = {}

@@ -6,7 +6,7 @@ from ROOT import gPad, gROOT
 from ROOT.TMath import Sqrt as sqrt
 average = lambda x: sum(x)/len(x)
 gROOT.SetBatch(1)
-sys.path.append(os.path.abspath(__file__).rsplit('/xuAnalysis/',1)[0]+'/xuAnalysis/')
+sys.path.append(os.path.abspath(__file__).rsplit('/xuAnalysis_all/',1)[0]+'/xuAnalysis_all/')
 
 from framework.fileReader import GetFiles
 from plotter.TopHistoReader import TopHistoReader #ch, chan, lev, level, dataset, datasets, systematic, systlabel  

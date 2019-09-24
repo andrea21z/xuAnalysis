@@ -1,6 +1,6 @@
-from TopHistoReader import TopHistoReader, Process, WeightReader
+from plotter.TopHistoReader import TopHistoReader, Process, WeightReader
 from ROOT.TMath import Sqrt as sqrt
-from OutText import OutText
+from plotter.OutText import OutText
 
 class CrossSection:
   
@@ -351,6 +351,7 @@ class CrossSection:
     self.SetChan(chan); self.SetLevel(level)
     self.t = TopHistoReader(path)
     self.t.SetLumi(lumi)
+    self.t.SetHistoNamePrefix('H')
     self.t.SetChan(chan); self.t.SetLevel(level)
     signalName = signal[0]
     signalSample = signal[1]
@@ -365,7 +366,7 @@ class CrossSection:
         expunc = expUnc
       elif len(l) == 4:
         name, pr, unc, expunc = l
-      self.AddBkg(name, self.t.GetYield(pr), unc, self.t.GetUnc(pr, chan, level, expUnc), self.t.GetYieldStatUnc(pr))
+      self.AddBkg(name, self.t.GetYield(pr,chan), unc, self.t.GetUnc(pr, chan, level, expUnc), self.t.GetYieldStatUnc(pr))
     self.SetSignal(signalName, self.t.GetYield(signalSample), self.t.GetYieldStatUnc(signalSample))
     self.t.SetIsData(True)
     self.SetData(self.t.GetYield(data))

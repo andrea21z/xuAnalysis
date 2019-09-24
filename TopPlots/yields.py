@@ -26,10 +26,9 @@ def GetYield(path, files, ch = 'ElMu', level = 'dilepton', histopref = 'H', year
     y = t.GetYield()
   return y
 
-lev = 'dilepton'
+lev = '1btag'
 #'#2jets' #'1btag'#'dilepton'
-year=2018
-
+year=2017
 print 'yields year: %i'%year
 '''
 print 'ElMu (bb): ', GetYield(path[year], processDic[year]['bb'], ch='ElMu', level=lev, year=year)
@@ -64,12 +63,19 @@ print 'TT ElMu : ', GetYield(path[year], processDic[year]['t#bar{t}'], ch='ElMu'
 print 'TT Muon : ', GetYield(path[year], processDic[year]['t#bar{t}'], ch='Muon', level=lev, year=year)
 print 'TT Elec : ', GetYield(path[year], processDic[year]['t#bar{t}'], ch='Elec', level=lev, year=year)
 
-print 'ElMu (data): ', GetYield(path[year], processDic[year]['data'], ch='ElMu', level=lev, year=year,isdata = True)
+#se divide entre lumi de cada anio correspondiente y se multiplica por la de 2016 para poder comparar (normalizar)
+print 'ElMu (data): ', GetYield(path[year], processDic[year]['data'], ch='ElMu', level=lev, year=year,isdata = True)  
 print 'Muon (data): ', GetYield(path[year], processDic[year]['data'], ch='Muon', level=lev, year=year, isdata=True)
 print 'Elec (data): ', GetYield(path[year], processDic[year]['data'], ch='Elec', level=lev, year=year, isdata=True)
 
+print 'ElMu Data/MC: ', GetYield(path[year], processDic[year]['data'], ch='ElMu', level=lev, year=year,isdata = True)/(GetYield(path[year], processDic[year]['t#bar{t}'], ch='ElMu', level=lev, year=year)+GetYield(path[year], processDic[year]['DY'], ch='ElMu', level=lev, year=year)+GetYield(path[year], processDic[year]['ttV'], ch='ElMu', level=lev, year=year)+GetYield(path[year], processDic[year]['VV'], ch='ElMu', level=lev, year=year)+GetYield(path[year], processDic[year]['tW'], ch='ElMu', level=lev, year=year)+GetYield(path[year], processDic[year]['Nonprompt'], ch='ElMu', level=lev, year=year))
+print 'Muon Data/MC: ', GetYield(path[year], processDic[year]['data'], ch='Muon', level=lev, year=year,isdata = True)/(GetYield(path[year], processDic[year]['t#bar{t}'], ch='Muon', level=lev, year=year)+GetYield(path[year], processDic[year]['DY'], ch='Muon', level=lev, year=year)+GetYield(path[year], processDic[year]['ttV'], ch='Muon', level=lev, year=year)+GetYield(path[year], processDic[year]['VV'], ch='Muon', level=lev, year=year)+GetYield(path[year], processDic[year]['tW'], ch='Muon', level=lev, year=year)+GetYield(path[year], processDic[year]['Nonprompt'], ch='Muon', level=lev, year=year))
+print 'Elec Data/MC: ', GetYield(path[year], processDic[year]['data'], ch='Elec', level=lev, year=year,isdata = True)/(GetYield(path[year], processDic[year]['t#bar{t}'], ch='Elec', level=lev, year=year)+GetYield(path[year], processDic[year]['DY'], ch='Elec', level=lev, year=year)+GetYield(path[year], processDic[year]['ttV'], ch='Elec', level=lev, year=year)+GetYield(path[year], processDic[year]['VV'], ch='Elec', level=lev, year=year)+GetYield(path[year], processDic[year]['tW'], ch='Elec', level=lev, year=year)+GetYield(path[year], processDic[year]['Nonprompt'], ch='Elec', level=lev, year=year))
+
+
+
 ##### DIFERENCIA DE YIELDS ENTRE DOS ANIOS
-year = 2016
+year = 2017
 year2 = 2018
 print 'yields difference between %i and %i'%(year, year2)
 
@@ -97,9 +103,9 @@ print 'TT ElMu difference: ', (GetYield(path[year], processDic[year]['t#bar{t}']
 print 'TT Muon difference: ', (GetYield(path[year], processDic[year]['t#bar{t}'], ch='Muon', level=lev, year=year)-GetYield(path[year2], processDic[year2]['t#bar{t}'], ch='Muon', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['t#bar{t}'], ch='Muon', level=lev, year=year)
 print 'TT Elec difference: ', (GetYield(path[year], processDic[year]['t#bar{t}'], ch='Elec', level=lev, year=year)-GetYield(path[year2], processDic[year2]['t#bar{t}'], ch='Elec', level=lev, year=year2))*100/GetYield(path[year], processDic[year]['t#bar{t}'], ch='Elec', level=lev, year=year)
 
-print 'ElMu (data) difference: ', (GetYield(path[year], processDic[year]['data'], ch='ElMu', level=lev, year=year,isdata = True)-GetYield(path[year2], processDic[year2]['data'], ch='ElMu', level=lev, year=year2,isdata = True))*100/GetYield(path[year], processDic[year]['data'], ch='ElMu', level=lev, year=year,isdata = True)
-print 'Muon (data) difference: ', (GetYield(path[year], processDic[year]['data'], ch='Muon', level=lev, year=year, isdata=True)-GetYield(path[year2], processDic[year2]['data'], ch='Muon', level=lev, year=year2,isdata = True))*100/GetYield(path[year], processDic[year]['data'], ch='Muon', level=lev, year=year,isdata = True)
-print 'Elec (data) difference: ', (GetYield(path[year], processDic[year]['data'], ch='Elec', level=lev, year=year, isdata=True)-GetYield(path[year2], processDic[year2]['data'], ch='Elec', level=lev, year=year2,isdata = True))*100/GetYield(path[year], processDic[year]['data'], ch='Elec', level=lev, year=year,isdata = True)
+print 'ElMu (data) difference: ', (GetYield(path[year], processDic[year]['data'], ch='ElMu', level=lev, year=year,isdata = True)*GetLumi(2016)/GetLumi(year)-GetYield(path[year2], processDic[year2]['data'], ch='ElMu', level=lev, year=year2,isdata = True)*GetLumi(2016)/GetLumi(year2))*100/(GetYield(path[year], processDic[year]['data'], ch='ElMu', level=lev, year=year,isdata = True)*GetLumi(2016)/GetLumi(year))
+print 'Muon (data) difference: ', (GetYield(path[year], processDic[year]['data'], ch='Muon', level=lev, year=year,isdata = True)*GetLumi(2016)/GetLumi(year)-GetYield(path[year2], processDic[year2]['data'], ch='Muon', level=lev, year=year2,isdata = True)*GetLumi(2016)/GetLumi(year2))*100/(GetYield(path[year], processDic[year]['data'], ch='Muon', level=lev, year=year,isdata = True)*GetLumi(2016)/GetLumi(year))
+print 'Elec (data) difference: ', (GetYield(path[year], processDic[year]['data'], ch='Elec', level=lev, year=year,isdata = True)*GetLumi(2016)/GetLumi(year)-GetYield(path[year2], processDic[year2]['data'], ch='Elec', level=lev, year=year2,isdata = True)*GetLumi(2016)/GetLumi(year2))*100/(GetYield(path[year], processDic[year]['data'], ch='Elec', level=lev, year=year,isdata = True)*GetLumi(2016)/GetLumi(year))
 
 ##comparacion 2016 con TOP-17-001
 year=2016

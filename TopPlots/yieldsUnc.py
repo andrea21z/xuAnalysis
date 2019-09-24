@@ -33,9 +33,11 @@ def GetStatUncYield(path, files, ch = 'ElMu', ilev = '1btag', histopref = 'H', y
   y= t. GetYield()
   return e/y
 
+#print 'Uncertainty MC statistics TT Semilep:', GetStatUncYield(path[year], processDic[year]['DY'], ilev='2jets', ch='ElMu', year=2016, isdata=False) , '%'
+
 
 ###print Unc efficiencies
-sample=[ 'ElecEff','MuonEff', 'Trig','Btag', 'Mistag','PU']
+sample=[ 'ElecEff','MuonEff', 'Trig','Btag', 'Mistag','PU','JES','JER']
 for i in sample:
   print 'Uncertainty %s'%i, GetUncYield(path[year], processDic[year]['t#bar{t}'],s=i)*100 , '%'
 print 'Uncertainty MC statistics:', GetStatUncYield(path[year], processDic[year]['t#bar{t}'])*100 , '%'
@@ -72,10 +74,10 @@ if year==2016:
 	for i in sample:
 		print 'Uncertainty %s'%i, GetUncSamples(pr_var=i)*100 , '%'
 
-	print 'Uncertainty Color reconnection: ', GetUncSamples(pr_var=['TT_colourFlip','TT_QCDbasedCRTune_erdON','TT_GluonMoveCRTune'])*100 , '%'
+	print 'Uncertainty Color reconnection: ', GetUncSamples(pr_var=['TT_colourFlip','TT_erdON','TT_QCDbasedCRTune_erdON','TT_GluonMoveCRTune'])*100 , '%'
 	print 'Uncertainty UE: ', GetUncSamples(pr_var=['TT_TuneCUETP8M2T4down','TT_TuneCUETP8M2T4up'])*100 , '%'
 else:
-	print 'Uncertainty hdamp: ', GetUncSamples(pr_var=['TTTo2L2Nu_hdampDown','TTTo2L2Nu_hdampUp'])*100 , '%'
+	print 'Uncertainty hdamp: ', GetUncSamples(pr_var=['TTTo2L2Nu_hdampUp','TTTo2L2Nu_hdampDown'])*100 , '%'
 	print 'Uncertainty UE: ', GetUncSamples(pr_var=['TTTo2L2Nu_TuneCP5Down','TTTo2L2Nu_TuneCP5Up'])*100 , '%'
 
 
@@ -108,6 +110,39 @@ Uncertainty TT_isr 3.1958015335 %
 Uncertainty Color reconnection:  8.34007748568 %
 Uncertainty UE:  3.1976934999 %
 ME scales (muR muF): 0.09 %
+
+#ver5: 
+Uncertainty ElecEff 1.36899645837 %
+Uncertainty MuonEff 1.05965757945 %
+Uncertainty Trig 1.39839126061 %
+Uncertainty Btag 1.90723981523 %
+Uncertainty Mistag 0.0464486674164 %
+Uncertainty PU 0.444325101633 %
+Uncertainty MC statistics: 0.165970984976 %
+Uncertainty TT_hdamp 3.71026287752 %
+Uncertainty TT_fsr 8.02144479638 %
+Uncertainty TT_isr 3.56275621847 %
+Uncertainty Color reconnection:  9.18334406022 %
+Uncertainty UE:  3.47836143627 %
+ME scales (muR muF): 0.17 %
+PDF unc: 0.00 (0.42 %)
+
+#ver5 v2: (pusimos en TopAnalysis las muestras de systematicos como data 2016)
+Uncertainty ElecEff 1.36899645837 %
+Uncertainty MuonEff 1.05965757945 %
+Uncertainty Trig 1.39839126061 %   (0.685% con triggerSf viejos)
+Uncertainty Btag 1.90723981523 %
+Uncertainty Mistag 0.0464486674164 %
+Uncertainty PU 0.444325101633 %
+Uncertainty MC statistics: 0.160616872905 %   (con muestra de TTTo2L2Nu TuneCP5 0.053 %)
+Uncertainty TT_hdamp 1.23060684686 % (<-Up 1637098, Down->0.24% 2927412) #la mitad de estadistica Up que Down
+Uncertainty TT_fsr 6.6312321777 %
+Uncertainty TT_isr 0.957164762471 %
+Uncertainty Color reconnection:  5.67550905709 %
+Uncertainty UE:  0.689243632455 %
+ME scales (muR muF): 0.17 %  (con muestra de TTTo2L2Nu TuneCP5 0.04 %)
+PDF unc: 0.00 (0.42 %) 
+Total PDF + alpha_S uncertainty: 0.00 (0.75 %) (con muestra de  TTTo2L2Nu TuneCP5)
 
 
 
@@ -164,6 +199,27 @@ Total PDF + alpha_S uncertainty: 0.02 (1.05 %)
 [4] ISR=2.0, FSR=1.0  (FSR up  ): 207.1850 (0.966 %)
 =====================================================
 
+ver5:
+Uncertainty ElecEff 2.27558640667 %
+Uncertainty MuonEff 0.971343861161 %
+Uncertainty Trig 1.35241014191 %
+Uncertainty Btag 2.20330659124 %
+Uncertainty Mistag 0.0255673647198 %
+Uncertainty PU 0.269543004671 %
+Uncertainty MC statistics: 0.0510370029696 %
+Uncertainty hdamp:  0.374238102103 % (<-Down 1824804, Up->0.24 % 1810325)
+Uncertainty UE:  0.264123028637 %
+ME scales (muR muF): 0.02 %
+PDF unc:  0.02 (1.03 %)
+alpha_S:  0.01 (0.34 %)
+Total PDF + alpha_S uncertainty: 0.02 (1.08 %)
+=====================================================
+[1] ISR=1.0, FSR=0.5  (ISR down): 190.8268 (-0.068 %)
+[2] ISR=0.5, FSR=1.0  (FSR down): 187.3382 (-1.895 %)
+[3] ISR=1.0, FSR=2.0  (ISR up  ): 191.0570 (0.052 %)
+[4] ISR=2.0, FSR=1.0  (FSR up  ): 193.2593 (1.205 %)
+=====================================================
+
 
 
 2018
@@ -212,6 +268,30 @@ alpha_S:  0.00 (0.22 %)
 Total PDF + alpha_S uncertainty: 0.00 (0.71 %)
 =====================================================
 [1] ISR=1.0, FSR=0.5  (ISR down): 206.1182 (-0.001 %)
+[2] ISR=0.5, FSR=1.0  (FSR down): 0.0000 (-100.000 %)
+[3] ISR=1.0, FSR=2.0  (ISR up  ): 0.0000 (-100.000 %)
+[4] ISR=2.0, FSR=1.0  (FSR up  ): 0.0000 (-100.000 %)
+=====================================================
+
+ver5: SF de btag coregidos (DeppFlav)
+
+Uncertainty ElecEff 1.48614527235 %
+Uncertainty MuonEff 0.735508578238 %
+Uncertainty Trig 1.18220662896 %
+Uncertainty Btag 2.8750416482 %
+Uncertainty Mistag 0.041587981922 %
+Uncertainty PU 0.400235581122 %
+Uncertainty JES 1.71621433076 % (muestra nueva)
+Uncertainty JER 0.264438931934 % (muestra nueva)
+Uncertainty MC statistics: 0.0573130474219 %
+Uncertainty hdamp:  0.960168899386 % (<-Down 1962137, Up->0.14 % 1899421)
+Uncertainty UE:  0.866595541632 %
+ME scales (muR muF):  0.03 % %
+PDF unc:  0.00 (0.70 %)
+alpha_S:  0.00 (0.23 %)
+Total PDF + alpha_S uncertainty: 0.00 (0.74 %)
+=====================================================
+[1] ISR=1.0, FSR=0.5  (ISR down): 189.2737 (-0.001 %)
 [2] ISR=0.5, FSR=1.0  (FSR down): 0.0000 (-100.000 %)
 [3] ISR=1.0, FSR=2.0  (ISR up  ): 0.0000 (-100.000 %)
 [4] ISR=2.0, FSR=1.0  (FSR up  ): 0.0000 (-100.000 %)

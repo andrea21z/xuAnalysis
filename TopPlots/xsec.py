@@ -1,68 +1,52 @@
-import os, sys
-basepath = os.path.abspath(__file__).rsplit('/xuAnalysis/',1)[0]+'/xuAnalysis/'
+from conf import *
+basepath = os.path.abspath(__file__).rsplit('/xuAnalysis_all/',1)[0]+'/xuAnalysis_all/'
 sys.path.append(basepath)
-from plotter.TopHistoReader import TopHistoReader, StackPlot, Process
-from ROOT.TMath import Sqrt as sqrt
-from ROOT import kRed, kOrange, kBlue, kTeal, kGreen, kGray, kAzure, kPink, kCyan, kBlack, kSpring, kViolet, kYellow
 
-### Input and output
-path = 'histofiles/'
-#path = 'temp/'
-outpath = '~/www/temp/wz/'
+from ttxsec.DrellYanDataDriven import DYDD
+from ttxsec.NonpromptDataDriven import NonpromptDD
+from ttxsec.CrossSection import CrossSection
+from framework.functions import GetLumi
+year=2016
+process = processDic
 
-### Definition of the processes
-process = {
-'WZ'  : 'WZTo3LNU',
-'VV'  : 'WWTo2L2Nu,ZZTo2L2Nu',
-'DY'  : 'DYJetsToLL_M_10to50,DYJetsToLL_MLL50',
-'top' : 'TT,tW_noFullHad,tbarW_noFullHad',
-'bkg' : 'WWTo2L2Nu,ZZTo2L2Nu,DYJetsToLL_M_10to50,DYJetsToLL_MLL50,TT,tW_noFullHad,tbarW_noFullHad',
-'data': 'DoubleMuon,SingleMuon,HighEGJet'}
-#prk = ['VV','WZ']
-prk = ['VV', 'DY', 'top', 'WZ']
+outpath='/nfs/fanae/user/andreatf/PAFnanoAOD/temp%s_new/ver5/xsec/'%year
 
-### Definition of colors for the processes
-colors ={
-'WZ'  : kYellow-4,
-'VV'  : kGray+2,
-'DY'  : kAzure-8,
-'top' : kRed+1,
-'data': 1}
+DYsamples   = processDic[year]['DY']
+datasamples = processDic[year]['data']
+def xsec(chan = 'ElMu', lev = '2jets', doDD = False):
+  x = CrossSection(outpath, chan, lev)
+  x.SetTextFormat("tex")
+  bkg = []
+  bkg.append(['tW',            process[year]['tW'],   0.30])
+  if not doDD:
+    bkg.append(['DY',            process[year]['DY'],   0.15])
+    bkg.append(['Nonprompt lep', process[year]['Nonprompt'], 0.50])
+  bkg.append(['VV',            process[year]['VV'],   0.30])
+  signal   = ['tt',            process[year]['t#bar{t}']]
+  data     = process[year]['data']
+  expunc = "MuonEff, ElecEff, PU, Btag, Mistag, TrigEff" # JER
+  modunc = "pdf, scale, isr, fsr"
 
-lumi = 296.1
+  x.ReadHistos(path[year], chan, lev, bkg = bkg, signal = signal, data = data, expUnc = expunc, modUnc = modunc)
+  x.SetLumi(GetLumi(year)*1000)
+  x.SetLumiUnc(0.026)
+  x.AddModUnc('Underlying Event','TT_TuneCUETP8M2T4down','TT_TuneCUETP8M2T4up')
+  x.AddModUnc('hdamp','TT_hdampUp','TT_hdampDown')
 
-t = TopHistoReader(path)
-t.SetLumi(lumi)
-t.SetLevel(2)
+  if doDD:
+    d = DYDD(path,outpath,chan,lev, DYsamples=DYsamples, DataSamples=datasamples, lumi=Lumi, histonameprefix='', hname = 'DYHistoElMu')
+    DYy, DYerr = d.GetDYDD()
+    x.AddBkg('DYDD', DYy, 0, 0.15, DYerr)
 
-def GetYield(pr):
- filename = pr if not pr in process.keys() else process[pr]
- if pr == 'data': t.SetIsData(True)
- else           : t.SetIsData(False)
- y = 0
- for ch in ['eee', 'emm', 'mee', 'mmm']:
-   y += t.GetYield(filename,ch)
- return y
+    f = NonpromptDD(path, chan=chan, level=lev, process=processDic[year] , lumi=Lumi, histonameprefix='',yieldsSSname='YieldsSS')
+    fy, fe = f.GetNonpromptDD(chan)
+    x.AddBkg('Nonprompt lep', fy, 0, 0.30, fe)
 
-xsecth = 1.2*(47.13/4.42965)
+  suf = '_'+chan+'_'+lev+'_'+('DD' if doDD else 'MC')
+  x.PrintYields('Yields'+suf)
+  x.PrintSystTable('Systematics'+suf)
+  x.PrintXsec('CrossSection'+suf)
 
-wz   = GetYield('WZ')
-dy   = GetYield('DY')
-top  = GetYield('top')
-bkg  = GetYield('bkg')
-data = GetYield('data')
-
-print 'top       : %1.2f'%top
-print 'dy        : %1.2f'%dy
-print 'Total bkg : %1.2f'%bkg
-print 'wz        : %1.2f'%wz
-print 'data      : %1.2f'%data
-
-xsec   = (data-bkg)/wz*xsecth
-xsecup = (data+sqrt(data)-bkg)/wz*xsecth
-xsecdo = (data-sqrt(data)-bkg)/wz*xsecth
-errxsec  = (abs(xsec-xsecup)+abs(xsec-xsecdo))/2
-rerrxsec = (errxsec)/xsec*100
-
-print '\nPredicted cross section: %1.2f\n'%xsecth
-print 'Inclusive cross section: %1.2f +/- %1.2f (%1.2f %s)\n'%(xsec, errxsec, rerrxsec, '%')
+lev = '2jets'
+xsec('ElMu',lev,1)
+#xsec('MuMu',lev)
